@@ -1,11 +1,16 @@
 import React from 'react';
 import { Layout, Menu, Breadcrumb } from 'antd';
 import './MyStoreLayout.less';
+import FooterLayout from "../_shared/FooterLayout";
+import ScryfallService from "../../Services/StryfallService";
 
-const { Header, Content, Footer } = Layout;
+const { Header, Content } = Layout;
 
 
 const MyStoreLayout = () => {
+
+    const service = new ScryfallService();
+    service.getCardNames();
     return (
         <Layout className="layout">
             <Header>
@@ -16,7 +21,7 @@ const MyStoreLayout = () => {
                     <Menu.Item key="3">nav 3</Menu.Item>
                 </Menu>
             </Header>
-            <Content style={{ padding: '0 50px' }}>
+            <Content>
                 <Breadcrumb style={{ margin: '16px 0' }}>
                     <Breadcrumb.Item>Home</Breadcrumb.Item>
                     <Breadcrumb.Item>List</Breadcrumb.Item>
@@ -26,7 +31,7 @@ const MyStoreLayout = () => {
                     Admin Content
                 </div>
             </Content>
-            <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
+            <FooterLayout />
         </Layout>
     );
 }

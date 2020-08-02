@@ -1,6 +1,10 @@
 import React from 'react';
 import { Form, Input, Button, Checkbox } from 'antd';
 import '../Register/Register.less'
+import {LockOutlined, MailOutlined} from "@ant-design/icons/lib";
+import ILoginForm from "../../../Interfaces/Auth/ILoginForm";
+import AuthService from "../../../Services/AuthService";
+import { useHistory } from 'react-router-dom';
 
 const layout = {
     labelCol: { span: 10 }, //not being used
@@ -12,8 +16,14 @@ const tailLayout = {
 };
 
 const Login = () => {
+    const service = AuthService.getInstance();
+    const history = useHistory();
     const onFinish = (values: any) => {
-        console.log('Success:', values);
+        const credentials = values as ILoginForm;
+        service.login(credentials)
+            .then(() => {
+                if(service.isLoggedIn()) history.push('/app');
+            });
     };
 
     const onFinishFailed = (errorInfo: any) => {
@@ -23,23 +33,27 @@ const Login = () => {
     return (
         <Form
             {...layout}
-            name="login"
+            name="email"
             initialValues={{ remember: true }}
             onFinish={onFinish}
             onFinishFailed={onFinishFailed}
         >
             <Form.Item
                 name="email"
-                rules={[{ required: true, message: 'Please input your email' }]}
+                rules={[{ type: 'email', message: 'Please input your email' }]}
             >
-                <Input placeholder="Your email"/>
+                <Input
+                    prefix={<MailOutlined className="site-form-item-icon" />}
+                    placeholder="Your email"/>
             </Form.Item>
 
             <Form.Item
                 name="password"
                 rules={[{ required: true, message: 'Please input your password' }]}
             >
-                <Input.Password placeholder="Your password"/>
+                <Input.Password
+                    prefix={<LockOutlined className="site-form-item-icon" />}
+                    placeholder="Your password"/>
             </Form.Item>
 
             <Form.Item {...tailLayout} className="form-item-remember-me">

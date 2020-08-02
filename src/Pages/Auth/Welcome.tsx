@@ -1,12 +1,28 @@
-import React from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {Row, Col, Divider} from 'antd';
 import Login from "../../Components/Auth/Login/Login";
 import Register from "../../Components/Auth/Register/Register";
 
 import './Welcome.less';
-import {EditFilled, LockFilled} from "@ant-design/icons";
+import {EditFilled, ShopFilled} from "@ant-design/icons/lib";
+import AuthService from "../../Services/AuthService";
+import { useHistory } from 'react-router-dom';
 
 const Welcome = () => {
+
+    const [firstRender, setFirstRender] = useState(true);
+    const service = AuthService.getInstance()
+    const history = useHistory();
+
+    if(service.isLoggedIn())
+        history.push('/app');
+
+
+    useEffect(() => {
+        setFirstRender(false);
+    })
+
+    if(firstRender) return null
 
     return (
         <Row>
@@ -18,7 +34,7 @@ const Welcome = () => {
                             <p>Enter your email and password to log on:</p>
                         </div>
                         <div className="welcome-form-icon">
-                            <LockFilled />
+                            <ShopFilled/>
                         </div>
                     </div>
                     <div className="welcome-form-body">
@@ -35,10 +51,10 @@ const Welcome = () => {
                     <div className="welcome-form-header">
                         <div className="welcome-form-text">
                             <h3>Sign up now</h3>
-                            <p>Fill the form and be ready for buying and selling your cards!</p>
+                            <p>Manage, buy and sell your cards!</p>
                         </div>
                         <div className="welcome-form-icon">
-                            <EditFilled />
+                            <EditFilled/>
                         </div>
                     </div>
                     <div className="welcome-form-body">

@@ -3,22 +3,19 @@ import { Layout } from 'antd';
 import './AuthLayout.less';
 import { Route } from 'react-router-dom';
 import Welcome from "../../Pages/Auth/Welcome";
+import FooterLayout from "../_shared/FooterLayout";
 
-const {  Content, Footer } = Layout;
+const {  Content } = Layout;
 
 function AuthLayout() {
     return (
         <Layout className="layout">
-            <Layout.Header className="header">
-                <div className="logo" />
-
-            </Layout.Header>
-            <Content style={{ padding: '0 50px' }}>
+            <Content className="auth-content">
                 <div className="site-layout-content">
                     <Route path="/auth" exact component={Welcome} />
                 </div>
             </Content>
-            <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
+            <FooterLayout />
         </Layout>
     );
 }

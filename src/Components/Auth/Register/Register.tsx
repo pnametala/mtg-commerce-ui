@@ -1,5 +1,6 @@
 import React from 'react';
 import { Form, Input, Button, Checkbox } from 'antd';
+import {LockOutlined, MailOutlined, UserOutlined} from "@ant-design/icons/lib";
 
 const layout = {
     labelCol: { span: 10 }, //not being used
@@ -9,6 +10,7 @@ const layout = {
 const tailLayout = {
     wrapperCol: { offset: 0, span: 24 },
 };
+
 
 const Register = () => {
     const onFinish = (values: any) => {
@@ -28,46 +30,48 @@ const Register = () => {
             onFinishFailed={onFinishFailed}
         >
             <Form.Item
-                name="username"
-                rules={[{ required: true, message: 'Please input your username' }]}
-            >
-                <Input placeholder="Your username" />
-            </Form.Item>
-
-
-            <Form.Item
                 name="email"
                 rules={[{ required: true, message: 'Please input your email' }]}
             >
-                <Input placeholder="Your email" />
+                <Input
+                    prefix={<MailOutlined className="site-form-item-icon" />}
+                    placeholder="Your email" />
             </Form.Item>
 
             <Form.Item
                 name="firstName"
                 rules={[{ required: true, message: 'Please input your first name' }]}
             >
-                <Input placeholder="Your first name"/>
+                <Input
+                    prefix={<UserOutlined className="site-form-item-icon" />}
+                    placeholder="Your first name"/>
             </Form.Item>
 
             <Form.Item
                 name="lastName"
                 rules={[{ required: true, message: 'Please input your last name' }]}
             >
-                <Input placeholder="Your last name"/>
+                <Input
+                    prefix={<UserOutlined className="site-form-item-icon" />}
+                    placeholder="Your last name"/>
             </Form.Item>
 
             <Form.Item
                 name="password"
                 rules={[{ required: true, message: 'Please input your password' }]}
             >
-                <Input.Password placeholder="Your password" />
+                <Input.Password
+                    prefix={<LockOutlined className="site-form-item-icon" />}
+                    placeholder="Your password" />
             </Form.Item>
 
             <Form.Item
                 name="passwordConfirm"
                 rules={[{ required: true, message: 'Please confirm your password' }]}
             >
-                <Input.Password placeholder="Confirm your password" />
+                <Input.Password
+                    prefix={<LockOutlined className="site-form-item-icon" />}
+                    placeholder="Confirm your password" />
             </Form.Item>
 
             <Form.Item {...tailLayout}>
