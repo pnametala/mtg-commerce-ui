@@ -1,6 +1,6 @@
 import React from 'react';
 import { Layout, Menu, Breadcrumb } from 'antd';
-import {Link, Route} from 'react-router-dom';
+import {Link, Route, useRouteMatch} from 'react-router-dom';
 import FooterLayout from "../_shared/FooterLayout";
 import AuthService from "../../Services/AuthService";
 
@@ -9,6 +9,7 @@ const { Header, Content } = Layout;
 const Home = () => <p>Home</p>;
 const Dashboard = () => <p>Dashboard</p>;
 function AppLayout() {
+    const {path, url} = useRouteMatch();
     const service = AuthService.getInstance();
     service.getUsers();
     return (
@@ -16,8 +17,8 @@ function AppLayout() {
             <Header>
                 <div className="logo" />
                 <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['1']}>
-                    <Menu.Item key="1"><Link to="/app/home">Home</Link></Menu.Item>
-                    <Menu.Item key="2"><Link to="/app/dashboard">Dashboard</Link></Menu.Item>
+                    <Menu.Item key="1"><Link to={`${url}/home`}>Home</Link></Menu.Item>
+                    <Menu.Item key="2"><Link to={`${url}/home`}>Dashboard</Link></Menu.Item>
                 </Menu>
             </Header>
             <Content>
@@ -28,8 +29,8 @@ function AppLayout() {
                 </Breadcrumb>
                 <div className="site-layout-content">
                     Content
-                    <Route path="/app/home" exact component={Home} />
-                    <Route path="/app/dashboard" exact component={Dashboard} />
+                    <Route path={`${path}/home`} exact component={Home} />
+                    <Route path={`${url}/dashboard`} exact component={Dashboard} />
                 </div>
             </Content>
             <FooterLayout />

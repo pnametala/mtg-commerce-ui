@@ -4,7 +4,7 @@ const {  Footer } = Layout;
 
 function FooterLayout() {
     return (
-        <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
+        <Footer style={{ textAlign: 'center' }}>MTG Market ©2020 ABN XX XXX XXX XXX</Footer>
     )
 }
 

@@ -1,5 +1,5 @@
 import BaseService from "./BaseService";
-import {IcardNames} from "../Interfaces/Scryfall/Catalog/ICardNames";
+import {ICard, ICatalog, IResultList} from "../Interfaces/Scryfall";
 
 export default class ScryfallService extends BaseService {
 
@@ -10,10 +10,15 @@ export default class ScryfallService extends BaseService {
 
 
     getCardNames() {
-        return this.httpClient.get<IcardNames>('/catalog/card-names')
-            .then((res) => {
-                console.log(res.data)
-            });
+        return this.httpClient.get<ICatalog>('/catalog/card-names');
+    }
+
+    searchByOracleId(id: string) {
+        return this.httpClient.get<IResultList<ICard>>(`/cards/search/oracle-id/${id}`);
+    }
+
+    findByExactName(name: string) {
+        return this.httpClient.get<ICard>(`/cards/name/${name}`);
     }
 
 }
