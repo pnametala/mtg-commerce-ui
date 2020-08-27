@@ -3,12 +3,10 @@ import ReactDOM from 'react-dom';
 import './index.less';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import {UserProvider} from "./Components/UserProvider/UserProvider";
+import 'fontsource-roboto';
 
 ReactDOM.render(
-    <UserProvider>
-        <App />
-    </UserProvider>,
+        <App />,
   document.getElementById('root')
 );
 

@@ -1,79 +1,95 @@
 import React from 'react';
-import { Form, Input, Button, Checkbox } from 'antd';
-import '../Register/Register.less'
-import {LockOutlined, MailOutlined} from "@ant-design/icons/lib";
+import Avatar from '@material-ui/core/Avatar';
+import Button from '@material-ui/core/Button';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import TextField from '@material-ui/core/TextField';
+import Link from '@material-ui/core/Link';
+import Grid from '@material-ui/core/Grid';
+import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import Typography from '@material-ui/core/Typography';
+import { makeStyles } from '@material-ui/core/styles';
+
 import ILoginForm from "../../../Interfaces/Auth/ILoginForm";
 import AuthService from "../../../Services/AuthService";
-import { useHistory } from 'react-router-dom';
+import {useHistory} from "react-router-dom";
+import {useForm} from "react-hook-form";
+import useStyles from "./Styles";
 
-const layout = {
-    labelCol: { span: 10 }, //not being used
-    wrapperCol: { offset: 0, span: 24 },
-};
 
-const tailLayout = {
-    wrapperCol: { offset: 0, span: 24 },
-};
 
 const Login = () => {
-    const service = AuthService.getInstance();
+    const classes = useStyles();
     const history = useHistory();
-    const onFinish = (values: any) => {
-        const credentials = values as ILoginForm;
+    const { register, handleSubmit, errors } = useForm<ILoginForm>();
+
+    const service = AuthService.getInstance();
+
+    const onSubmit = (credentials: ILoginForm) => {
         service.login(credentials)
             .then(() => {
-                if(service.isLoggedIn()) history.push('/app');
+                if(service.isLoggedIn()) history.push('/app/home');
             });
     };
 
-    const onFinishFailed = (errorInfo: any) => {
-        console.log('Failed:', errorInfo);
-    };
-
     return (
-        <Form
-            {...layout}
-            name="email"
-            initialValues={{ remember: true }}
-            onFinish={onFinish}
-            onFinishFailed={onFinishFailed}
-        >
-            <Form.Item
-                name="email"
-                rules={[{ type: 'email', message: 'Please input your email' }]}
-            >
-                <Input
-                    prefix={<MailOutlined className="site-form-item-icon" />}
-                    placeholder="Your email"/>
-            </Form.Item>
-
-            <Form.Item
-                name="password"
-                rules={[{ required: true, message: 'Please input your password' }]}
-            >
-                <Input.Password
-                    prefix={<LockOutlined className="site-form-item-icon" />}
-                    placeholder="Your password"/>
-            </Form.Item>
-
-            <Form.Item {...tailLayout} className="form-item-remember-me">
-                <Form.Item name="remember" valuePropName="checked">
-                    <Checkbox>Remember me</Checkbox>
-                </Form.Item>
-
-                <Form.Item>
-                    <a className="login-form-forgot" href="">
-                        Forgot password
-                    </a>
-                </Form.Item>
-            </Form.Item>
-
-            <Form.Item {...tailLayout}>
-                <Button type="primary" htmlType="submit" style={{width: '100%'}}>
-                    Submit
-                </Button>
-            </Form.Item>
-        </Form>
+        <React.Fragment>
+            <CssBaseline />
+            <div className={classes.paper}>
+                <Avatar className={classes.avatar}>
+                    <LockOutlinedIcon />
+                </Avatar>
+                <Typography component="h1" variant="h5">
+                    Sign in
+                </Typography>
+                <form className={classes.form} noValidate onSubmit={handleSubmit(onSubmit)}>
+                    <TextField
+                        variant="outlined"
+                        margin="normal"
+                        required
+                        fullWidth
+                        id="email"
+                        label="Email Address"
+                        name="email"
+                        autoComplete="email"
+                        autoFocus
+                        inputRef={register({ required: true })}
+                    />
+                    <TextField
+                        variant="outlined"
+                        margin="normal"
+                        required
+                        fullWidth
+                        name="password"
+                        label="Password"
+                        type="password"
+                        id="password"
+                        autoComplete="current-password"
+                        inputRef={register({ required: true })}
+                    />
+                    <Button
+                        type="submit"
+                        fullWidth
+                        variant="contained"
+                        color="primary"
+                        className={classes.submit}
+                    >
+                        Sign In
+                    </Button>
+                    <Grid container>
+                        <Grid item xs>
+                            <Link href="#" variant="body2">
+                                Forgot password?
+                            </Link>
+                        </Grid>
+                        <Grid item>
+                            <Link href="#" variant="body2">
+                                {"Don't have an account? Sign Up"}
+                            </Link>
+                        </Grid>
+                    </Grid>
+                </form>
+            </div>
+        </React.Fragment>
     );
 };
 

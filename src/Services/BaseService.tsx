@@ -7,9 +7,9 @@ export default abstract class BaseService {
     protected readonly httpClient: AxiosInstance;
     protected user: IUser;
 
-    protected constructor(url?: string) {
+    protected constructor(path?: string) {
         this.httpClient = axios.create( {
-            baseURL: url || 'https://localhost:5001/api',
+            baseURL: `https://localhost:5001/api${path}`,
             withCredentials: true
         })
 

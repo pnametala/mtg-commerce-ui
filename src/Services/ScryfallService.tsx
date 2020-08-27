@@ -5,7 +5,7 @@ export default class ScryfallService extends BaseService {
 
 
     constructor() {
-        super();
+        super('/scryfall');
     }
 
 

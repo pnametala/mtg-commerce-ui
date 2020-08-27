@@ -1,8 +1,12 @@
 import React from 'react';
+import LatestAdditions from "../../Components/LandingPage/LatestAdditions/LatestAdditions";
 
 function Home() {
     return (
-        <div>Home</div>
+        <React.Fragment>
+            <LatestAdditions />
+
+        </React.Fragment>
     );
 }
 

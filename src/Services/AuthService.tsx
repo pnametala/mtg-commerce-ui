@@ -1,6 +1,7 @@
 import BaseService from "./BaseService";
 import ILoginForm from "../Interfaces/Auth/ILoginForm";
 import IUser from "../Components/UserProvider/UserProvider";
+import IRegisterForm from "../Interfaces/Auth/IRegisterForm";
 
 export default class AuthService extends BaseService {
 
@@ -8,7 +9,7 @@ export default class AuthService extends BaseService {
     private static instance: AuthService;
 
     private constructor() {
-        super();
+        super('/auth');
     }
 
     static getInstance() {
@@ -18,20 +19,28 @@ export default class AuthService extends BaseService {
     }
 
     login(credentials: ILoginForm) {
-        return this.httpClient.post<IUser>('/users/auth', credentials)
+        return this.httpClient.post<IUser>('/login', credentials)
             .then((res) => {
                 this._bindUser(res.data);
             });
     }
 
-    getUsers() {
-       return this.httpClient.get<any[]>('/users')
-           .then(data => console.log(data));
+    register(form: IRegisterForm) {
+        return this.httpClient.post<IRegisterForm>('/register', form);
+    }
+
+    logout() {
+        return this.httpClient.post<boolean>('/logout')
+            .then(res => {
+                this._bindUser({} as IUser);
+                return res;
+            });
     }
 
     refreshToken() {
+
         console.log('refresh token')
-        return this.httpClient.post<IUser>('/users/refresh-token')
+        return this.httpClient.post<IUser>('/refresh-token')
             .then(res => {
                 this._bindUser(res.data)
             })

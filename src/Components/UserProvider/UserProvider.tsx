@@ -10,11 +10,19 @@ export default interface IUser {
     refreshToken: string;
 }
 
+interface IUserProviderProps {
+    user: IUser;
+}
+
 export const UserContext = createContext({} as IUser);
 
 // This context provider is passed to any component requiring the context
 export class UserProvider extends Component  {
-    private user = {} as IUser
+    private readonly user: IUser;
+    constructor(props: IUserProviderProps) {
+        super(props)
+        this.user = props.user;
+    }
 
     render (){
         return (<UserContext.Provider

@@ -5,6 +5,7 @@ export interface ICard extends IScryfallBaseItem
     multiverseIds: number[];
     mtgoId: number;
     mtgoFoilId: number;
+    lang: string;
     uri: string;
     scryfallUri: string;
     printsSearchUri: string;
@@ -27,6 +28,8 @@ export interface ICard extends IScryfallBaseItem
     cardFaces: ICardFace[];
     legalities: { [key:string]: string };
     reserved: boolean;
+    foil: boolean;
+    nonFoil: boolean;
     edhrecRank: number;
     set: string;
     setName: string;
@@ -50,10 +53,9 @@ export interface ICard extends IScryfallBaseItem
     timeshifted: boolean;
     colorshifted: boolean;
     futureshifted: boolean;
-    price: IPrice;
+    prices: IPrice;
     relatedUris: { [key:string]: string };
     retailerUris: { [key:string]: string };
-    ToString() : string;
 }
 export interface ICardFace extends IScryfallBaseItem
 {

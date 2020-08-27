@@ -1,86 +1,122 @@
 import React from 'react';
-import { Form, Input, Button, Checkbox } from 'antd';
-import {LockOutlined, MailOutlined, UserOutlined} from "@ant-design/icons/lib";
+import Avatar from '@material-ui/core/Avatar';
+import Button from '@material-ui/core/Button';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import TextField from '@material-ui/core/TextField';
+import Link from '@material-ui/core/Link';
+import Grid from '@material-ui/core/Grid';
+import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import Typography from '@material-ui/core/Typography';
+import { makeStyles } from '@material-ui/core/styles';
 
-const layout = {
-    labelCol: { span: 10 }, //not being used
-    wrapperCol: { offset: 0, span: 24 },
-};
-
-const tailLayout = {
-    wrapperCol: { offset: 0, span: 24 },
-};
+import IRegisterForm from "../../../Interfaces/Auth/IRegisterForm";
+import AuthService from "../../../Services/AuthService";
+import {useHistory} from "react-router";
+import {useForm} from "react-hook-form";
+import useStyles from "./Styles";
 
 
-const Register = () => {
-    const onFinish = (values: any) => {
-        console.log('Success:', values);
-    };
+export default function Register() {
+    const classes = useStyles();
+    const service = AuthService.getInstance();
+    const history = useHistory();
 
-    const onFinishFailed = (errorInfo: any) => {
-        console.log('Failed:', errorInfo);
+    const { register, handleSubmit, errors } = useForm<IRegisterForm>();
+
+    const onFinish = (form: IRegisterForm) => {
+        service.register(form)
+            .then(res => {
+                console.log(res.data);
+            });
     };
 
     return (
-        <Form
-            {...layout}
-            name="register"
-            initialValues={{ remember: true }}
-            onFinish={onFinish}
-            onFinishFailed={onFinishFailed}
-        >
-            <Form.Item
-                name="email"
-                rules={[{ required: true, message: 'Please input your email' }]}
-            >
-                <Input
-                    prefix={<MailOutlined className="site-form-item-icon" />}
-                    placeholder="Your email" />
-            </Form.Item>
-
-            <Form.Item
-                name="firstName"
-                rules={[{ required: true, message: 'Please input your first name' }]}
-            >
-                <Input
-                    prefix={<UserOutlined className="site-form-item-icon" />}
-                    placeholder="Your first name"/>
-            </Form.Item>
-
-            <Form.Item
-                name="lastName"
-                rules={[{ required: true, message: 'Please input your last name' }]}
-            >
-                <Input
-                    prefix={<UserOutlined className="site-form-item-icon" />}
-                    placeholder="Your last name"/>
-            </Form.Item>
-
-            <Form.Item
-                name="password"
-                rules={[{ required: true, message: 'Please input your password' }]}
-            >
-                <Input.Password
-                    prefix={<LockOutlined className="site-form-item-icon" />}
-                    placeholder="Your password" />
-            </Form.Item>
-
-            <Form.Item
-                name="passwordConfirm"
-                rules={[{ required: true, message: 'Please confirm your password' }]}
-            >
-                <Input.Password
-                    prefix={<LockOutlined className="site-form-item-icon" />}
-                    placeholder="Confirm your password" />
-            </Form.Item>
-
-            <Form.Item {...tailLayout}>
-                <Button type="primary" htmlType="submit" style={{width: '100%'}}>
-                    Submit
-                </Button>
-            </Form.Item>
-        </Form>
+        <React.Fragment>
+            <CssBaseline />
+            <div className={classes.paper}>
+                <Avatar className={classes.avatar}>
+                    <LockOutlinedIcon />
+                </Avatar>
+                <Typography component="h1" variant="h5">
+                    Sign up
+                </Typography>
+                <form className={classes.form} noValidate>
+                    <Grid container spacing={2}>
+                        <Grid item xs={12} sm={6}>
+                            <TextField
+                                autoComplete="fname"
+                                name="firstName"
+                                variant="outlined"
+                                required
+                                fullWidth
+                                id="firstName"
+                                label="First Name"
+                                autoFocus
+                            />
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                            <TextField
+                                variant="outlined"
+                                required
+                                fullWidth
+                                id="lastName"
+                                label="Last Name"
+                                name="lastName"
+                                autoComplete="lname"
+                            />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <TextField
+                                variant="outlined"
+                                required
+                                fullWidth
+                                id="email"
+                                label="Email Address"
+                                name="email"
+                                autoComplete="email"
+                            />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <TextField
+                                variant="outlined"
+                                required
+                                fullWidth
+                                name="password"
+                                label="Password"
+                                type="password"
+                                autoComplete="current-password"
+                            />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <TextField
+                                variant="outlined"
+                                required
+                                fullWidth
+                                name="passwordConfirmation"
+                                label="Confirm Your Password"
+                                type="password"
+                                autoComplete="confirm-password"
+                            />
+                        </Grid>
+                    </Grid>
+                    <Button
+                        type="submit"
+                        fullWidth
+                        variant="contained"
+                        color="primary"
+                        className={classes.submit}
+                    >
+                        Sign Up
+                    </Button>
+                    <Grid container justify="flex-end">
+                        <Grid item>
+                            <Link href="#" variant="body2">
+                                Already have an account? Sign in
+                            </Link>
+                        </Grid>
+                    </Grid>
+                </form>
+            </div>
+        </React.Fragment>
     );
-};
-
-export default Register;
+}
